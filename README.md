@@ -9,3 +9,11 @@ O código está organizado nos seguintes diretórios:
 - **models** descrevem os tipos de entidades, com suas propriedades, que serão utilizados no projeto.
 - **repositories** códigos responsáveis por manipular entidades da aplicação, terão funcionalidades como _criar_, _listar_, _filtrar_, etc
 - **services** códigos responsáveis pelas regras de negócio de uma maneira geral. Cada arquivo nesse diretório será responsável por uma única regra de negócio.
+- **database** código que conecta ao banco de dados, juntamente com as migrations. Veja mais detalhes sobre o banco na seção de banco de dados.
+
+## Banco de Dados
+O sistema utiliza banco de dados Postgres com o TypeORM rodando em um Docker. As confugurações estão no arquivo `ormconfig.json`. A conexão é feita importando o `index.ts` da pasta database. As tabelas criadas são:
+- appointments
+  - id: varchar, primary, generationStrategy uuid, default uuid_generate_v4()
+  - provider: varchar, not null
+  - date: timestamp with time zone, not null
