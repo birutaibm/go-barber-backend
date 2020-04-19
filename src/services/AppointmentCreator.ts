@@ -29,7 +29,8 @@ class AppointmentCreator {
     }
 
     const appointment = this.appointmentsRepo.create({
-      provider,
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      provider_id: provider,
       date: roundedDate,
     });
     await this.appointmentsRepo.save(appointment);
