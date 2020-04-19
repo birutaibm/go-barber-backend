@@ -15,5 +15,14 @@ O código está organizado nos seguintes diretórios:
 O sistema utiliza banco de dados Postgres com o TypeORM rodando em um Docker. As confugurações estão no arquivo `ormconfig.json`. A conexão é feita importando o `index.ts` da pasta database. As tabelas criadas são:
 - appointments
   - id: varchar, primary, generationStrategy uuid, default uuid_generate_v4()
-  - provider: varchar, not null
-  - date: timestamp with time zone, not null
+  - provider: varchar
+  - date: timestamp with time zone
+  - created_at: timestamp, default now()
+  - updated_at: timestamp, default now()
+- users
+  - id: varchar, primary, generationStrategy uuid, default uuid_generate_v4()
+  - name: varchar
+  - password: varchar
+  - email: varchar, unique
+  - created_at: timestamp, default now()
+  - updated_at: timestamp, default now()
