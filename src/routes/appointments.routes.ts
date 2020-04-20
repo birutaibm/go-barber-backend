@@ -17,18 +17,14 @@ router.get('/', async (request, response) => {
 });
 
 router.post('/', async (request, response) => {
-  try {
-    const { provider, date } = request.body;
-    const creator = new AppointmentCreator();
-    const appointments = await creator.execute({
-      provider,
-      date: parseISO(date),
-    });
+  const { provider, date } = request.body;
+  const creator = new AppointmentCreator();
+  const appointments = await creator.execute({
+    provider,
+    date: parseISO(date),
+  });
 
-    return response.status(201).json(appointments);
-  } catch (error) {
-    return response.status(400).json({ message: error.message });
-  }
+  return response.status(201).json(appointments);
 });
 
 export default router;

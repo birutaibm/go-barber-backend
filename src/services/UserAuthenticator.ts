@@ -3,6 +3,7 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '../config/auth';
 import User from '../models/User';
+import AppError from '../errors/AppError';
 
 interface UserAuthenticationDTO {
   email: string;
@@ -25,12 +26,12 @@ class UserAuthenticator {
     });
 
     if (!user) {
-      throw Error('Invalid e-mail/password');
+      throw new AppError('Invalid e-mail/password', 401);
     }
 
     const validPassword = await compare(password, user.password);
     if (!validPassword) {
-      throw Error('Invalid e-mail/password');
+      throw new AppError('Invalid e-mail/password', 401);
     }
 
     const { secret, expiresIn } = authConfig.jwt;
