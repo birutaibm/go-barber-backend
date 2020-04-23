@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
-
+import cors from 'cors';
 import routes from './routes';
 import files from './config/upload';
 import AppError from './errors/AppError';
@@ -9,7 +9,10 @@ import AppError from './errors/AppError';
 import './database';
 
 const app = express();
+
 app.use(express.json());
+app.use(cors());
+
 app.use('/files', express.static(files.directory));
 app.use(routes);
 app.use((err: Error, request: Request, respose: Response, _: NextFunction) => {
