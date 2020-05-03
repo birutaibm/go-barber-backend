@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
+
 import routes from './routes';
 import files from './config/upload';
 import AppError from './errors/AppError';
@@ -15,9 +16,9 @@ app.use(cors());
 
 app.use('/files', express.static(files.directory));
 app.use(routes);
-app.use((err: Error, request: Request, respose: Response, _: NextFunction) => {
+app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   if (err instanceof AppError) {
-    return respose.status(err.statusCode).json({
+    return response.status(err.statusCode).json({
       status: 'error',
       message: err.message,
     });
@@ -25,7 +26,7 @@ app.use((err: Error, request: Request, respose: Response, _: NextFunction) => {
 
   console.error(err);
 
-  return respose.status(500).json({
+  return response.status(500).json({
     status: 'error',
     message: 'Internal server error',
   });

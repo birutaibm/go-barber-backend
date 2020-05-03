@@ -19,7 +19,7 @@ export default class UserAvatarUpdater {
     const user = await users.findOne(userId);
 
     if (!user) {
-      throw new AppError('Only autheticated users can change avatar.', 401);
+      throw new AppError('Only authenticated users can change avatar.', 401);
     }
 
     if (user.avatar) {
