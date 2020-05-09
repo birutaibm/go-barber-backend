@@ -47,4 +47,16 @@ describe('ForgotPasswordEmailSender', () => {
     await service.execute('john@doe.com');
     expect(tokensSpier).toHaveBeenCalledWith(user.id);
   });
+
+  it('should throw AppError if mail sender gives no response', async () => {
+    jest.spyOn(sender, 'sendMail')
+      .mockReturnValueOnce(new Promise(res => res(undefined)));
+    users.create({
+      name: 'John Doe',
+      email: 'john@doe.com',
+      password: '123456',
+    });
+
+    await expect(service.execute('john@doe.com')).rejects.toBeInstanceOf(AppError);
+  });
 });

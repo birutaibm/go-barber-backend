@@ -4,13 +4,20 @@ import UserCreator from "./UserCreator";
 import UserAuthenticator from "./UserAuthenticator";
 import AppError from "@shared/errors/AppError";
 
-describe('UserAuthenticator', () => {
-  it('should be able to authenticate with correct credentials', async () => {
-    const repository = new FakeUserRepository();
-    const hashProvider = new FakeHashProvider();
-    const creator = new UserCreator(repository, hashProvider);
-    const authenticator = new UserAuthenticator(repository, hashProvider);
+let repository: FakeUserRepository;
+let hashProvider: FakeHashProvider;
+let creator: UserCreator;
+let authenticator: UserAuthenticator;
 
+describe('UserAuthenticator', () => {
+  beforeEach(() => {
+    repository = new FakeUserRepository();
+    hashProvider = new FakeHashProvider();
+    creator = new UserCreator(repository, hashProvider);
+    authenticator = new UserAuthenticator(repository, hashProvider);
+  });
+
+  it('should be able to authenticate with correct credentials', async () => {
     const user = await creator.execute({
       name: 'John Doe',
       email: 'john@doe.com',
@@ -27,10 +34,6 @@ describe('UserAuthenticator', () => {
   });
 
   it('should not be able to authenticate with wrong e-mail', async () => {
-    const repository = new FakeUserRepository();
-    const hashProvider = new FakeHashProvider();
-    const authenticator = new UserAuthenticator(repository, hashProvider);
-
     expect(authenticator.execute({
       email: 'john@doe.com',
       password: '123456',
@@ -38,11 +41,6 @@ describe('UserAuthenticator', () => {
   });
 
   it('should not be able to authenticate with wrong password', async () => {
-    const repository = new FakeUserRepository();
-    const hashProvider = new FakeHashProvider();
-    const creator = new UserCreator(repository, hashProvider);
-    const authenticator = new UserAuthenticator(repository, hashProvider);
-
     const user = await creator.execute({
       name: 'John Doe',
       email: 'john@doe.com',

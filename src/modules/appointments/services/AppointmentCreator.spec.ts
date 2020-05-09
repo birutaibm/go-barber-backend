@@ -3,9 +3,13 @@ import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRe
 import AppointmentCreator from './AppointmentCreator';
 import AppError from '@shared/errors/AppError';
 
+let creator: AppointmentCreator;
 describe('AppointmentCreator', () => {
+  beforeEach(() => {
+    creator = new AppointmentCreator(new FakeAppointmentsRepository());
+  });
+
   it('should be able to create a new appointment', async () => {
-    const creator = new AppointmentCreator(new FakeAppointmentsRepository());
     const appointment = await creator.execute({
       date: new Date(),
       provider: '12354323',
@@ -16,14 +20,13 @@ describe('AppointmentCreator', () => {
   });
 
   it('should not be able to create two appointments on the same time', async () => {
-    const creator = new AppointmentCreator(new FakeAppointmentsRepository());
     const date = new Date()
     const appointment = await creator.execute({
       date,
       provider: '12354323',
     });
 
-    expect(creator.execute({
+    await expect(creator.execute({
       date,
       provider: '12354323',
     })).rejects.toBeInstanceOf(AppError);

@@ -28,7 +28,7 @@ export default class PasswordResetter {
       throw new AppError('Expired token');
     }
 
-    const user = await this.users.findById(userToken?.user_id);
+    const user = await this.users.findById(userToken.user_id);
     if (!user) {
       throw new AppError('Token has no user', 500);
     }
