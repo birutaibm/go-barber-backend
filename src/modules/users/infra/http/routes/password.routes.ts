@@ -7,7 +7,7 @@ const router = Router();
 const forgot = new ForgotPasswordCtrl();
 const reset = new ResetPasswordCtrl();
 
-router.post('/forgot', (req, res) => forgot.create(req, res));
+router.post('/forgot', forgot.create);
 router.post('/reset', reset.create);
 
 export default router;

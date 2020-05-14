@@ -1,26 +1,29 @@
 import { Request, Response } from 'express';
 import ForgotPasswordEmailSender from '@modules/users/services/ForgotPasswordEmailSender';
-import UsersRepository from '../../typeorm/repositories/UsersRepository';
-import UserTokensRepository from '../../typeorm/repositories/UserTokensRepository';
-import container from '@shared/container';
+import container from '@modules/users/providers';
+import IUserTokenRepository from '@modules/users/repositories/IUserTokenRepository';
+import IMailSender from '@shared/container/providers/MailSender/models/IMailSender';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 export default class ForgotPasswordCtrl {
-  private service: ForgotPasswordEmailSender;
-
-  async send(email: string) {
-    if (!this.service) {
-      const users = new UsersRepository();
-      const tokens = new UserTokensRepository();
-      const mailSender = container.get('MailSender');
-      this.service = new ForgotPasswordEmailSender(users, tokens, mailSender);
-    }
-    return this.service.execute(email);
+  constructor() {
+    const creator =
+      (u: IUsersRepository, t: IUserTokenRepository, m: IMailSender) =>
+        new ForgotPasswordEmailSender(u, t, m);
+    container.inject<ForgotPasswordEmailSender>(
+      'ForgotPasswordEmailSender',
+      {
+        creator,
+        dependencies: ['UsersRepository', 'UserTokensRepository', 'MailSender']
+      }
+    );
   }
 
   public async create(request: Request, response: Response) {
-    const { email } = request.body;
+    const service = container.resolve('ForgotPasswordEmailSender');
 
-    const message = await this.send(email);
+    const { email } = request.body;
+    const message = await service.execute(email);
 
     return response.status(201).json(message);
   }

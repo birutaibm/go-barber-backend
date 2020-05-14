@@ -1,14 +1,14 @@
 import { Router } from 'express';
 
 import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
-import AppointmentsCtrl from '../controllers/AppointmentsCtrl';
+import ProfileCtrl from '../controllers/ProfileCtrl';
 
 const router = Router();
-const controller = new AppointmentsCtrl();
+const profileCtrl = new ProfileCtrl();
 
 router.use(ensureAuthenticated);
 
-router.get('/', controller.index);
-router.post('/', controller.create);
+router.get('/', profileCtrl.show);
+router.put('/', profileCtrl.update);
 
 export default router;
