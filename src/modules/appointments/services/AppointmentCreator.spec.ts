@@ -1,12 +1,16 @@
-import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
-
-import AppointmentCreator from './AppointmentCreator';
 import AppError from '@shared/errors/AppError';
+import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
+
+import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
+import AppointmentCreator from './AppointmentCreator';
 
 let creator: AppointmentCreator;
 describe('AppointmentCreator', () => {
   beforeEach(() => {
-    creator = new AppointmentCreator(new FakeAppointmentsRepository());
+    creator = new AppointmentCreator(
+      new FakeAppointmentsRepository(),
+      new FakeNotificationsRepository()
+    );
   });
 
   it('should be able to create a new appointment', async () => {

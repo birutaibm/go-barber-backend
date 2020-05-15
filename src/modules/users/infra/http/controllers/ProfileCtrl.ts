@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import container from '@modules/users/providers';
+import container from '@shared/container';
 import ProfileUpdater from '@modules/users/services/ProfileUpdater';
 import ProfileShower from '@modules/users/services/ProfileShower';
 

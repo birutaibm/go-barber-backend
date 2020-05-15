@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import ProvidersListService from '@modules/appointments/services/ProvidersListService';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-import container from '../../container';
+import container from '@shared/container';
 
 export default class ProviderCtrl {
   constructor() {

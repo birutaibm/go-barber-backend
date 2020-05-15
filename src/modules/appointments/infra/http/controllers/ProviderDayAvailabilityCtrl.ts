@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import DayAvailabilityGetter from '@modules/appointments/services/DayAvailabilityGetter';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
-import container from '../../container';
+import container from '@shared/container';
 
 export default class ProviderDayAvailabilityCtrl {
   constructor() {

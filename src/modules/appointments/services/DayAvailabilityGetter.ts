@@ -22,15 +22,13 @@ export default class DayAvailabilityGetter {
   ) {}
 
   public async execute({ provider_id, day, month, year }: Input): Promise<Output> {
-    const appointments = await this.repository.findAllInMonthFromProvider({
+    const appointments = await this.repository.findAllInDayFromProvider({
       provider_id,
+      day,
       month,
       year
     });
-    const appointmentsOfDay = appointments.filter(
-      (appointment) => day === getDate(appointment.date)
-    );
-    const unavailableHours = appointmentsOfDay
+    const unavailableHours = appointments
       .map(appointment => getHours(appointment.date));
     const hoursInDays = Array.from(
       { length: 10 },
