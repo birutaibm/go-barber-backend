@@ -3,7 +3,7 @@ import PasswordResetter from '@modules/users/services/PasswordResetter';
 import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IUserTokenRepository from '@modules/users/repositories/IUserTokenRepository';
-import container from '@modules/users/providers';
+import container from '@shared/container';
 
 export default class ResetPasswordCtrl {
   constructor() {

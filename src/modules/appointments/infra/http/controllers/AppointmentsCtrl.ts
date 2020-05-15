@@ -3,14 +3,16 @@ import { parseISO } from 'date-fns';
 
 import AppointmentCreator from '@modules/appointments/services/AppointmentCreator';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
-import container from '../../container';
+import container from '@shared/container';
+import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 
 export default class AppointmentsCtrl {
   constructor () {
-    const creator = (repo: IAppointmentsRepository) => new AppointmentCreator(repo);
     container.inject<AppointmentCreator>('AppointmentCreator', {
-      creator,
-      dependencies: ['AppointmentsRepository']
+      creator:
+        (a: IAppointmentsRepository, n: INotificationsRepository) =>
+          new AppointmentCreator(a, n),
+      dependencies: ['AppointmentsRepository', 'NotificationsRepository']
     });
   }
 

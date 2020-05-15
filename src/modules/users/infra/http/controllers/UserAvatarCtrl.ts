@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import container from '@modules/users/providers';
+import container from '@shared/container';
 import UserAvatarUpdater from '@modules/users/services/UserAvatarUpdater';
 
 export default class UserAvatarCtrl {

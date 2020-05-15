@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import ForgotPasswordEmailSender from '@modules/users/services/ForgotPasswordEmailSender';
-import container from '@modules/users/providers';
+import container from '@shared/container';
 import IUserTokenRepository from '@modules/users/repositories/IUserTokenRepository';
 import IMailSender from '@shared/container/providers/MailSender/models/IMailSender';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
