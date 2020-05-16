@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { classToClass } from 'class-transformer';
+
 import container from '@shared/container';
 import UserAuthenticator from '@modules/users/services/UserAuthenticator';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
@@ -18,7 +20,6 @@ export default class SessionsCtrl {
     const authenticator = container.resolve('UserAuthenticator') as UserAuthenticator;
     const { user, token } = await authenticator.execute({ email, password });
 
-    delete user.password;
-    return response.status(201).json({ user, token });
+    return response.status(201).json({ user: classToClass(user), token });
   }
 }
