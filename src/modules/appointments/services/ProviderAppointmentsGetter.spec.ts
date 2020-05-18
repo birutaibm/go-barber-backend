@@ -1,14 +1,16 @@
 import FakeAppointmentsRepository from "../repositories/fakes/FakeAppointmentsRepository";
 import ProviderAppointmentsGetter from "./ProviderAppointmentsGetter";
-import Appointment from "../infra/typeorm/entities/Appointment";
+import FakeCacheProvider from "@shared/container/providers/CacheProvider/fakes/FakeCacheProvider";
 
 let service: ProviderAppointmentsGetter;
 let repository: FakeAppointmentsRepository;
+let cache: FakeCacheProvider;
 
 describe('ProviderAppointmentsGetter', () => {
   beforeEach(() => {
     repository = new FakeAppointmentsRepository();
-    service = new ProviderAppointmentsGetter(repository);
+    cache = new FakeCacheProvider();
+    service = new ProviderAppointmentsGetter(repository, cache);
   });
 
   it('should be able to list the appointments at a specific day', async () => {

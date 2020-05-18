@@ -20,6 +20,8 @@ import UserTokensRepository from '@modules/users/infra/typeorm/repositories/User
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import NotificationsRepository from '@modules/notifications/infra/typeorm/repositories/NotificationsRepository';
 
+import './providers/CacheProvider';
+
 container.registry<IStorageProvider>('DiskStorage', () => new DiskStorageProvider());
 container.registry<IMailTemplate>('MailTemplate', () => new HandlebarsMailTemplate());
 container.registry<IMailSender>('MailSender', () => new EtherealMailSender(container.get('MailTemplate')));

@@ -1,5 +1,6 @@
 import IAppointmentsRepository from "../repositories/IAppointmentsRepository";
 import Appointment from "../infra/typeorm/entities/Appointment";
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 interface Input {
   provider_id: string;
@@ -10,10 +11,14 @@ interface Input {
 
 export default class ProviderAppointmentsGetter {
   constructor (
-    private repository: IAppointmentsRepository
+    private repository: IAppointmentsRepository,
+    private cache: ICacheProvider
   ) {}
 
   public async execute(data: Input): Promise<Appointment[]> {
-    return await this.repository.findAllInDayFromProvider(data);
+    const appointments = await this.repository.findAllInDayFromProvider(data);
+    const key = `Appointments-${data.provider_id}-${data.day}/${data.month}/${data.year}`;
+    this.cache.save(key, JSON.stringify(appointments));
+    return appointments;
   }
 }
