@@ -3,13 +3,15 @@ import FakeNotificationsRepository from '@modules/notifications/repositories/fak
 
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import AppointmentCreator from './AppointmentCreator';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 
 let creator: AppointmentCreator;
 describe('AppointmentCreator', () => {
   beforeEach(() => {
     creator = new AppointmentCreator(
       new FakeAppointmentsRepository(),
-      new FakeNotificationsRepository()
+      new FakeNotificationsRepository(),
+      new FakeCacheProvider()
     );
   });
 

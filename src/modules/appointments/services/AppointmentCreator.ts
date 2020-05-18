@@ -3,6 +3,7 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 import AppError from '@shared/errors/AppError';
 import AppointmentsRepository from '../repositories/IAppointmentsRepository';
 import NotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 interface AppointmentCreationDTO {
   provider: string;
@@ -14,6 +15,7 @@ class AppointmentCreator {
   constructor(
     private appointmentsRepo: AppointmentsRepository,
     private notifications: NotificationsRepository,
+    private cache: ICacheProvider,
   ) {}
 
   public async execute({
@@ -62,6 +64,9 @@ class AppointmentCreator {
       content: `Novo agendamento para dia ${formattedDate}h`,
     });
 
+    await this.cache.invalidate(
+      `provider-appointments:${provider}:${format(appointmentDate, 'yyyy:M:d')}`
+    );
     return appointment;
   }
 }

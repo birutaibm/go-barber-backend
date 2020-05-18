@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
-import { parseISO } from 'date-fns';
 
 import AppointmentCreator from '@modules/appointments/services/AppointmentCreator';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import container from '@shared/container';
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 export default class AppointmentsCtrl {
   constructor () {
     container.inject<AppointmentCreator>('AppointmentCreator', {
       creator:
-        (a: IAppointmentsRepository, n: INotificationsRepository) =>
-          new AppointmentCreator(a, n),
-      dependencies: ['AppointmentsRepository', 'NotificationsRepository']
+        (a: IAppointmentsRepository, n: INotificationsRepository, c: ICacheProvider) =>
+          new AppointmentCreator(a, n, c),
+      dependencies: ['AppointmentsRepository', 'NotificationsRepository', 'CacheProvider']
     });
   }
 
@@ -29,7 +29,7 @@ export default class AppointmentsCtrl {
     const appointments = await creator.execute({
       user_id,
       provider,
-      date: parseISO(date),
+      date,
     });
 
     return response.status(201).json(appointments);
