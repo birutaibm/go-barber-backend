@@ -7,6 +7,8 @@ interface ICacheConfig {
   };
 }
 
+// TODO mover valores das configurações do redis para o .env (aula Express rate limit)
+
 export default {
   driver: 'redis',
 

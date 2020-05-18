@@ -6,19 +6,17 @@ import AppError from "@shared/errors/AppError";
 
 let repository: FakeUserRepository;
 let hashProvider: FakeHashProvider;
-let creator: UserCreator;
 let authenticator: UserAuthenticator;
 
 describe('UserAuthenticator', () => {
   beforeEach(() => {
     repository = new FakeUserRepository();
     hashProvider = new FakeHashProvider();
-    creator = new UserCreator(repository, hashProvider);
     authenticator = new UserAuthenticator(repository, hashProvider);
   });
 
   it('should be able to authenticate with correct credentials', async () => {
-    const user = await creator.execute({
+    const user = await repository.create({
       name: 'John Doe',
       email: 'john@doe.com',
       password: '123456',
@@ -41,7 +39,7 @@ describe('UserAuthenticator', () => {
   });
 
   it('should not be able to authenticate with wrong password', async () => {
-    const user = await creator.execute({
+    const user = await repository.create({
       name: 'John Doe',
       email: 'john@doe.com',
       password: '123456',
