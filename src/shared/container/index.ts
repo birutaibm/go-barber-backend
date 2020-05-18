@@ -1,9 +1,11 @@
 import container from './providers';
+import mailConfig from '@config/mail';
 
 import IStorageProvider from './providers/StorageProvider/models/IStorageProvider';
 import DiskStorageProvider from './providers/StorageProvider/implementations/DiskStorageProvider';
 import IMailSender from './providers/MailSender/models/IMailSender';
 import EtherealMailSender from './providers/MailSender/implementations/EtherealMailSender';
+import SESMailSender from './providers/MailSender/implementations/SESMailSender';
 import HandlebarsMailTemplate from './providers/MailTemplate/implementations/HandlebarsMailTemplate';
 import IMailTemplate from './providers/MailTemplate/models/IMailTemplate';
 
@@ -22,7 +24,11 @@ import NotificationsRepository from '@modules/notifications/infra/typeorm/reposi
 
 container.registry<IStorageProvider>('DiskStorage', () => new DiskStorageProvider());
 container.registry<IMailTemplate>('MailTemplate', () => new HandlebarsMailTemplate());
-container.registry<IMailSender>('MailSender', () => new EtherealMailSender(container.get('MailTemplate')));
+container.registry<IMailSender>('MailSender', () =>
+  mailConfig.driver === 'ethereal'
+    ? new EtherealMailSender(container.get('MailTemplate'))
+    : new SESMailSender(container.get('MailTemplate'))
+);
 
 container.registry<IAppointmentsRepository>('AppointmentsRepository', () => new AppointmentsRepository());
 
