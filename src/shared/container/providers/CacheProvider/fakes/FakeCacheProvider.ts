@@ -1,13 +1,13 @@
 import ICacheProvider from "../models/ICacheProvider";
 
 export default class FakeCacheProvider implements ICacheProvider {
-  private cache:{[key: string]: string} = {};
+  private cache:{[key: string]: any} = {};
 
-  public async save(key: string, value: string): Promise<void> {
+  public async save<T>(key: string, value: T): Promise<void> {
     this.cache[key] = value;
   }
 
-  public async recover(key: string): Promise<string | null> {
+  public async recover<T>(key: string): Promise<T | null> {
     return this.cache[key] || null;
   }
 
