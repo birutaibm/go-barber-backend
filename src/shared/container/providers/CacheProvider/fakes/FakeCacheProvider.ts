@@ -14,4 +14,10 @@ export default class FakeCacheProvider implements ICacheProvider {
   public async invalidate(key: string): Promise<void> {
     delete this.cache[key];
   }
+
+  public async invalidatePrefix(prefix: string): Promise<void> {
+    Object.keys(this.cache)
+      .filter(key => key.startsWith(prefix))
+      .forEach(key => this.invalidate(key));
+  }
 }
