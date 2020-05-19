@@ -1,4 +1,7 @@
 import nodemailer, { Transporter } from 'nodemailer';
+
+import mailConfig from '@config/mail';
+
 import IMailSender, { IMessage } from "../models/IMailSender";
 import IMailTemplate from '../../MailTemplate/models/IMailTemplate';
 
@@ -32,7 +35,7 @@ export default class EtherealMailSender implements IMailSender {
     if (from) {
       libFrom = from.name ? {name: from.name, address: from.email} : from.email;
     } else {
-      libFrom = 'Equipe GoBarber <equipe@gobarber.com.br>';
+      libFrom = mailConfig.defaults.from;
     }
     const message = await client.sendMail({
       from: libFrom,
