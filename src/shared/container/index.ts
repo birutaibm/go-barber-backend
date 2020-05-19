@@ -1,11 +1,5 @@
-import container from './providers';
-
-import IStorageProvider from './providers/StorageProvider/models/IStorageProvider';
-import DiskStorageProvider from './providers/StorageProvider/implementations/DiskStorageProvider';
-import IMailSender from './providers/MailSender/models/IMailSender';
-import EtherealMailSender from './providers/MailSender/implementations/EtherealMailSender';
-import HandlebarsMailTemplate from './providers/MailTemplate/implementations/HandlebarsMailTemplate';
-import IMailTemplate from './providers/MailTemplate/models/IMailTemplate';
+import container from './Container';
+import './providers';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/Appointments';
@@ -19,12 +13,6 @@ import UserTokensRepository from '@modules/users/infra/typeorm/repositories/User
 
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import NotificationsRepository from '@modules/notifications/infra/typeorm/repositories/NotificationsRepository';
-
-import './providers/CacheProvider';
-
-container.registry<IStorageProvider>('DiskStorage', () => new DiskStorageProvider());
-container.registry<IMailTemplate>('MailTemplate', () => new HandlebarsMailTemplate());
-container.registry<IMailSender>('MailSender', () => new EtherealMailSender(container.get('MailTemplate')));
 
 container.registry<IAppointmentsRepository>('AppointmentsRepository', () => new AppointmentsRepository());
 

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { sign } from 'jsonwebtoken';
 
 import authConfig from '@config/auth';

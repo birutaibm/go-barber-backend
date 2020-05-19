@@ -1,5 +1,5 @@
 import FakeUserRepository from "../repositories/fakes/FakeUserRepository";
-import ProfileShower from "./ProfileShower";
+import ProfileShower from "./ProfileGetter";
 import AppError from "@shared/errors/AppError";
 
 let repository: FakeUserRepository;

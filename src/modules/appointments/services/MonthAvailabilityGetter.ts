@@ -43,7 +43,7 @@ export default class MonthAvailabilityGetter {
     const currentDate = new Date(Date.now());
 
     return daysInMonth.map(day => {
-      const date = new Date(year, month - 1, day);
+      const date = new Date(year, month - 1, day, 17);
       if (isAfter(currentDate, date)) return { day, available: false };
 
       const appointments = appointmentsByDay[day] || [];

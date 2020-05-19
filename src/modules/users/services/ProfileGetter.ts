@@ -3,25 +3,21 @@ import AppError from '@shared/errors/AppError';
 
 import IUsersRepository from '../repositories/IUsersRepository';
 
-interface ProfileShowerInputDTO {
+interface ProfileGetterInputDTO {
   user_id: string;
 }
 
-class ProfileShower {
+export default class ProfileGetter {
   constructor(
     private repository: IUsersRepository,
   ) {}
 
-  public async execute(data: ProfileShowerInputDTO): Promise<User> {
+  public async execute(data: ProfileGetterInputDTO): Promise<User> {
     const user = await this.repository.findById(data.user_id);
     if (!user) {
       throw new AppError('User not found');
     }
 
-    delete user.password;
-
     return user;
   }
 }
-
-export default ProfileShower;

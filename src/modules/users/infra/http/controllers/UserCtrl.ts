@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { classToClass } from 'class-transformer';
+
 import container from '@shared/container';
 import UserCreator from '@modules/users/services/UserCreator';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
@@ -20,8 +22,7 @@ export default class UserCtrl {
       const creator = container.resolve('UserCreator') as UserCreator;
       const user = await creator.execute({ name, email, password });
 
-      delete user.password;
-      return response.status(201).json(user);
+      return response.status(201).json(classToClass(user));
     } catch (error) {
       return response.status(400).json({ message: error.message });
     }

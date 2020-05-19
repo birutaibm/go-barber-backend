@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { classToClass } from 'class-transformer';
+
 import container from '@shared/container';
 import UserAvatarUpdater from '@modules/users/services/UserAvatarUpdater';
 
@@ -14,8 +16,7 @@ export default class UserAvatarCtrl {
         avatarFilename: request.file.filename,
       });
 
-      delete user.password;
-      return response.json(user);
+      return response.json(classToClass(user));
     } catch (error) {
       return response.status(400).json({ message: error.message });
     }
