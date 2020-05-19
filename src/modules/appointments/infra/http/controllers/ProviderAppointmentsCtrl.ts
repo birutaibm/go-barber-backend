@@ -2,14 +2,16 @@ import { Request, Response } from 'express';
 
 import ProviderAppointmentsGetter from '@modules/appointments/services/ProviderAppointmentsGetter';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import container from '@shared/container';
 
 export default class ProviderAppointmentsCtrl {
   constructor() {
-    const creator = (repo: IAppointmentsRepository) => new ProviderAppointmentsGetter(repo);
+    const creator = (repo: IAppointmentsRepository, cache: ICacheProvider) =>
+      new ProviderAppointmentsGetter(repo, cache);
     container.inject<ProviderAppointmentsGetter>('ProviderAppointmentsGetter', {
       creator,
-      dependencies: ['AppointmentsRepository'],
+      dependencies: ['AppointmentsRepository', 'CacheProvider'],
     });
   }
 
