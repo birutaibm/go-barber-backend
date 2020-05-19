@@ -1,4 +1,4 @@
-import container from '..';
+import container from '../../Container';
 
 import ICacheProvider from './models/ICacheProvider';
 import RedisCacheProvider from './implementations/RedisCacheProvider';
