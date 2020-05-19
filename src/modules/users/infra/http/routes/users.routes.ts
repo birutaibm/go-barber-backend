@@ -9,7 +9,7 @@ import { celebrate, Segments } from 'celebrate';
 import Joi from '@hapi/joi';
 
 const router = Router();
-const upload = multer(uploadConfig);
+const upload = multer(uploadConfig.multer);
 
 router.post(
   '/',
