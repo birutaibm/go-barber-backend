@@ -46,7 +46,6 @@ class User {
       default:
         return null;
     }
-    return this.avatar ? process.env.APP_API_URL + '/files/' + this.avatar : null;
   }
 }
 
