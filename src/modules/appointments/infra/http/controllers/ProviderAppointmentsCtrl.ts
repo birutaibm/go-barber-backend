@@ -4,6 +4,7 @@ import ProviderAppointmentsGetter from '@modules/appointments/services/ProviderA
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import container from '@shared/container';
+import { classToClass } from 'class-transformer';
 
 export default class ProviderAppointmentsCtrl {
   constructor() {
@@ -17,16 +18,16 @@ export default class ProviderAppointmentsCtrl {
 
   public async index(request: Request, response: Response) {
     const service = container.resolve('ProviderAppointmentsGetter') as ProviderAppointmentsGetter;
-    const { day, month, year } = request.body;
+    const { day, month, year } = request.query;
     const provider_id = request.user.id;
 
     const appointments = await service.execute({
       provider_id,
-      day,
-      month,
-      year,
+      day: Number(day),
+      month: Number(month),
+      year: Number(year),
     });
 
-    return response.json(appointments);
+    return response.json(classToClass(appointments));
   }
 }

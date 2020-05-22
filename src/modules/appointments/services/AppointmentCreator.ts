@@ -6,7 +6,7 @@ import NotificationsRepository from '@modules/notifications/repositories/INotifi
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 interface AppointmentCreationDTO {
-  provider: string;
+  provider_id: string;
   user_id: string;
   date: Date;
 }
@@ -20,7 +20,7 @@ class AppointmentCreator {
 
   public async execute({
     user_id,
-    provider,
+    provider_id,
     date,
   }: AppointmentCreationDTO): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
@@ -39,12 +39,13 @@ class AppointmentCreator {
       throw new AppError('You can not create an appointment on a past date')
     }
 
-    if (user_id === provider) {
+    if (user_id === provider_id) {
       throw new AppError('You can not create an appointment with yourself')
     }
 
     const conflictingAppointment = await this.appointmentsRepo.findByDate(
       appointmentDate,
+      provider_id,
     );
 
     if (conflictingAppointment) {
@@ -53,19 +54,19 @@ class AppointmentCreator {
 
     const appointment = await this.appointmentsRepo.create({
       // eslint-disable-next-line @typescript-eslint/camelcase
-      provider_id: provider,
+      provider_id: provider_id,
       user_id,
       date: appointmentDate,
     });
 
     const formattedDate = format(appointmentDate, "dd/MM/yyyy 'às' HH:mm");
     await this.notifications.create({
-      recipient_id: provider,
+      recipient_id: provider_id,
       content: `Novo agendamento para dia ${formattedDate}h`,
     });
 
     await this.cache.invalidate(
-      `provider-appointments:${provider}:${format(appointmentDate, 'yyyy:M:d')}`
+      `provider-appointments:${provider_id}:${format(appointmentDate, 'yyyy:M:d')}`
     );
     return appointment;
   }

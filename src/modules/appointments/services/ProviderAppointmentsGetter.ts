@@ -1,6 +1,7 @@
 import IAppointmentsRepository from "../repositories/IAppointmentsRepository";
 import Appointment from "../infra/typeorm/entities/Appointment";
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import { classToClass } from "class-transformer";
 
 interface Input {
   provider_id: string;
@@ -20,7 +21,7 @@ export default class ProviderAppointmentsGetter {
     let appointments = await this.cache.recover<Appointment[]>(key);
     if (!appointments) {
       appointments = await this.repository.findAllInDayFromProvider(data);
-      this.cache.save<Appointment[]>(key, appointments);
+      await this.cache.save<Appointment[]>(key, classToClass(appointments));
     }
 
     return appointments;

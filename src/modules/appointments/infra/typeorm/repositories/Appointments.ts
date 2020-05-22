@@ -9,9 +9,9 @@ import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInD
 class AppointmentsRepository implements IAppointmentsRepository {
   private ormRepository = getRepository(Appointment);
 
-  async findAllInMonthFromProvider({
+  public async findAllInMonthFromProvider({
     provider_id, month, year
-  }: IFindAllInMonthFromProviderDTO): Promise<Appointment[]> {
+  }: IFindAllInMonthFromProviderDTO) {
     const parseMonth = String(month).padStart(2, '0');
     const appointments = await this.ormRepository.find({
       where: {
@@ -24,9 +24,9 @@ class AppointmentsRepository implements IAppointmentsRepository {
     return appointments;
   }
 
-  async findAllInDayFromProvider({
+  public async findAllInDayFromProvider({
     provider_id, day, month, year
-  }: IFindAllInDayFromProviderDTO): Promise<Appointment[]> {
+  }: IFindAllInDayFromProviderDTO) {
     const parseDay = String(day).padStart(2, '0');
     const parseMonth = String(month).padStart(2, '0');
     const parseDate = `'${parseDay}-${parseMonth}-${year}'`
@@ -36,24 +36,25 @@ class AppointmentsRepository implements IAppointmentsRepository {
         date: Raw(dateFieldName =>
           `to_char(${dateFieldName}, 'DD-MM-YYYY') = ${parseDate}`
         ),
-      }
+      },
+      relations: ['user'],
     });
     return appointments;
   }
 
-  getAll(): Promise<Appointment[]> {
+  public getAll() {
     return this.ormRepository.find();
   }
 
-  public async findByDate(date: Date): Promise<Appointment | undefined> {
+  public async findByDate(date: Date, provider_id: string) {
     const found = await this.ormRepository.findOne({
-      where: { date },
+      where: { date, provider_id },
     });
 
     return found;
   }
 
-  async create(data: ICreateAppointmentDTO): Promise<Appointment> {
+  public async create(data: ICreateAppointmentDTO) {
     const appointment = this.ormRepository.create(data);
     return await this.ormRepository.save(appointment);
   }

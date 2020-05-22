@@ -15,13 +15,13 @@ export default class ProviderMonthAvailabilityCtrl {
 
   public async index(request: Request, response: Response) {
     const service = container.resolve('MonthAvailabilityGetter');
-    const { month, year } = request.body;
+    const { month, year } = request.query;
     const { provider_id } = request.params;
 
     const result = await service.execute({
       provider_id,
-      month,
-      year,
+      month: Number(month),
+      year: Number(year),
     });
 
     return response.json(result);
