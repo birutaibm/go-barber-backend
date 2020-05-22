@@ -25,7 +25,7 @@ export default class ForgotPasswordEmailSender {
       body: {
         structure: path.resolve(__dirname, '..', 'views', 'forgot_password.hbs'),
         variables: {
-          token: token.token,
+          link: `${process.env.APP_WEB_URL}/reset_password?token=${token.token}`,
           name: user.name,
         },
       },
