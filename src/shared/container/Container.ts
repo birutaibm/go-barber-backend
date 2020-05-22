@@ -16,11 +16,11 @@ class Container {
   private singletons: Singletons = {};
   private injected: {[key: string]: InjectedValue<any>} = {};
 
-  registry<T>(name: string, constructor: Constructor<T>) {
+  public registry<T>(name: string, constructor: Constructor<T>) {
     this.constructors[name] = constructor;
   }
 
-  get(name: string) {
+  public get(name: string) {
     let singleton = this.singletons[name];
     if (!singleton) {
       const constructor = this.constructors[name];
@@ -34,17 +34,21 @@ class Container {
     return singleton;
   }
 
-  inject<T>(name: string, {creator, dependencies}: InjectionInput<T>) {
+  public inject<T>(name: string, {creator, dependencies}: InjectionInput<T>) {
+    dependencies.forEach(dependency => {
+      if (!this.singletons[dependency] && !this.constructors[dependency]) {
+        throw new AppError('Invalid dependency '+dependency, 500);
+      }
+    });
     this.injected[name] = ({creator, dependencies});
   }
 
-  resolve(name: string) {
+  public resolve(name: string) {
     const injected = this.injected[name];
     if (injected.creator) {
       const {creator, dependencies} = injected;
       const resolvedDependencies = dependencies.map((key: string) => this.get(key));
-      const result = creator(...resolvedDependencies);
-      return result;
+      return creator(...resolvedDependencies);
     }
     return injected;
   }

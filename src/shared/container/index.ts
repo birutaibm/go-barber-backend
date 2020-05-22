@@ -1,5 +1,4 @@
-import container from './Container';
-import './providers';
+import container from './providers';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/Appointments';

@@ -10,4 +10,6 @@ const creators = {
   ses: () => new SESMailSender(container.get('MailTemplate')),
 };
 
-container.registry<IMailSender>('MailSender', creators[mailConfig.driver]);
+const mailDriver = mailConfig.driver;
+const creator = creators[mailDriver];
+container.registry<IMailSender>('MailSender', creator);
