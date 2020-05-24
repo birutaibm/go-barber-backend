@@ -9,6 +9,8 @@ import { celebrate, Segments } from 'celebrate';
 import Joi from '@hapi/joi';
 
 const router = Router();
+const userCtrl = new UserCtrl();
+const userAvatarCtrl = new UserAvatarCtrl();
 const upload = multer(uploadConfig.multer);
 
 router.post(
@@ -20,14 +22,14 @@ router.post(
       password: Joi.string().required(),
     },
   }),
-  UserCtrl.create
+  userCtrl.create
 );
 
 router.patch(
   '/avatar',
   ensureAuthenticated,
   upload.single('avatar'),
-  UserAvatarCtrl.update
+  userAvatarCtrl.update
 );
 
 export default router;

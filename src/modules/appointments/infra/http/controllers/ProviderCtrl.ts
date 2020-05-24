@@ -18,7 +18,7 @@ export default class ProviderCtrl {
     const user_id = request.user.id;
 
     const providers = await container
-      .resolve('ProvidersListService')
+      .resolve<ProvidersListService>('ProvidersListService')
       .execute(user_id);
 
     return response.json(providers);

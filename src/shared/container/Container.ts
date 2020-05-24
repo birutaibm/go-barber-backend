@@ -43,7 +43,7 @@ class Container {
     this.injected[name] = ({creator, dependencies});
   }
 
-  public resolve(name: string) {
+  public resolve<T>(name: string): T {
     const injected = this.injected[name];
     if (injected.creator) {
       const {creator, dependencies} = injected;

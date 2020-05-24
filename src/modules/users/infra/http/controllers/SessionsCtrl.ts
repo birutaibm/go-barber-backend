@@ -17,7 +17,7 @@ export default class SessionsCtrl {
 
   public async create(request: Request, response: Response) {
     const { email, password } = request.body;
-    const authenticator = container.resolve('UserAuthenticator') as UserAuthenticator;
+    const authenticator = container.resolve<UserAuthenticator>('UserAuthenticator');
     const { user, token } = await authenticator.execute({ email, password });
 
     return response.status(201).json({ user: classToClass(user), token });

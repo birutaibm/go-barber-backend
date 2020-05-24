@@ -25,7 +25,7 @@ export default class AppointmentsCtrl {
   public async create(request: Request, response: Response) {
     const user_id = request.user.id;
     const { provider_id, date } = request.body;
-    const creator = container.resolve('AppointmentsCreator') as AppointmentCreator;
+    const creator = container.resolve<AppointmentCreator>('AppointmentCreator');
     const appointments = await creator.execute({
       user_id,
       provider_id,

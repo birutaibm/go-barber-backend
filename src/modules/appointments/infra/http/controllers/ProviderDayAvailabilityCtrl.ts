@@ -14,7 +14,7 @@ export default class ProviderDayAvailabilityCtrl {
   }
 
   public async index(request: Request, response: Response) {
-    const service = container.resolve('DayAvailabilityGetter');
+    const service = container.resolve<DayAvailabilityGetter>('DayAvailabilityGetter');
     const { day, month, year } = request.query;
     const { provider_id } = request.params;
 

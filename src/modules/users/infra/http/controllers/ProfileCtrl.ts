@@ -21,7 +21,7 @@ export default class ProfileCtrl {
 
   public async show(request: Request, response: Response) {
     const user_id = request.user.id;
-    const service = container.resolve('ProfileGetter') as ProfileGetter;
+    const service = container.resolve<ProfileGetter>('ProfileGetter');
 
     const user = await service.execute({user_id});
 
@@ -36,7 +36,7 @@ export default class ProfileCtrl {
       password,
       old_password,
     } = request.body;
-    const service = container.resolve('ProfileUpdater') as ProfileUpdater;
+    const service = container.resolve<ProfileUpdater>('ProfileUpdater');
     const user = await service.execute({
       user_id,
       name,

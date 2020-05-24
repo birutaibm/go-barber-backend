@@ -20,7 +20,7 @@ export default class ForgotPasswordCtrl {
   }
 
   public async create(request: Request, response: Response) {
-    const service = container.resolve('ForgotPasswordEmailSender');
+    const service = container.resolve<ForgotPasswordEmailSender>('ForgotPasswordEmailSender');
 
     const { email } = request.body;
     const message = await service.execute(email);

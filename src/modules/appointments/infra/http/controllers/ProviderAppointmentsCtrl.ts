@@ -17,7 +17,7 @@ export default class ProviderAppointmentsCtrl {
   }
 
   public async index(request: Request, response: Response) {
-    const service = container.resolve('ProviderAppointmentsGetter') as ProviderAppointmentsGetter;
+    const service = container.resolve<ProviderAppointmentsGetter>('ProviderAppointmentsGetter');
     const { day, month, year } = request.query;
     const provider_id = request.user.id;
 

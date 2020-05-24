@@ -22,7 +22,10 @@ export default class ResetPasswordCtrl {
   public async create(request: Request, response: Response) {
     const { password, token } = request.body;
 
-    await container.resolve('PasswordResetter').execute({ password, token });
+    await container.resolve<PasswordResetter>('PasswordResetter').execute({
+      password,
+      token,
+    });
 
     return response.sendStatus(204);
   }

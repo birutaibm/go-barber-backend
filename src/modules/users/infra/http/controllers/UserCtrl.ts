@@ -13,18 +13,14 @@ export default class UserCtrl {
       creator: (u: IUsersRepository, h: IHashProvider, c: ICacheProvider) =>
         new UserCreator(u, h, c),
       dependencies: ['UsersRepository', 'HashProvider', 'CacheProvider']
-    })
+    });
   }
 
-  public static async create(request: Request, response: Response) {
-    try {
-      const { name, email, password } = request.body;
-      const creator = container.resolve('UserCreator') as UserCreator;
-      const user = await creator.execute({ name, email, password });
+  public async create(request: Request, response: Response) {
+    const { name, email, password } = request.body;
+    const creator = container.resolve<UserCreator>('UserCreator');
+    const user = await creator.execute({ name, email, password });
 
-      return response.status(201).json(classToClass(user));
-    } catch (error) {
-      return response.status(400).json({ message: error.message });
-    }
+    return response.status(201).json(classToClass(user));
   }
 }

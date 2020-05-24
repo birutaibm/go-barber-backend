@@ -14,7 +14,7 @@ export default class ProviderMonthAvailabilityCtrl {
   }
 
   public async index(request: Request, response: Response) {
-    const service = container.resolve('MonthAvailabilityGetter');
+    const service = container.resolve<MonthAvailabilityGetter>('MonthAvailabilityGetter');
     const { month, year } = request.query;
     const { provider_id } = request.params;
 
