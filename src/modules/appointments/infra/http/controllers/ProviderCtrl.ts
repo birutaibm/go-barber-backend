@@ -3,6 +3,7 @@ import ProvidersListService from '@modules/appointments/services/ProvidersListSe
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import container from '@shared/container';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import { classToClass } from 'class-transformer';
 
 export default class ProviderCtrl {
   constructor() {
@@ -21,6 +22,6 @@ export default class ProviderCtrl {
       .resolve<ProvidersListService>('ProvidersListService')
       .execute(user_id);
 
-    return response.json(providers);
+    return response.json(classToClass(providers));
   }
 }
