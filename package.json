@@ -27,7 +27,7 @@
     "redis": "^3.1.1",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.25",
-    "uuidv4": "^6.0.7"
+    "uuidv4": "^6.2.10"
   },
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
